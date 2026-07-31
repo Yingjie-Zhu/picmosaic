@@ -1,0 +1,50 @@
+name: Feature request
+description: Suggest an idea or improvement for picmosaic
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement! Check the roadmap in the README
+        first — your idea may already be planned.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: >
+        What are you trying to achieve? Is your request related to a problem or
+        limitation you hit?
+      placeholder: I want to build a heart-shaped mosaic, but the output is always rectangular...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: >
+        Describe the feature you'd like — CLI flags, API additions, expected
+        behavior. Example command lines or code snippets are welcome.
+      placeholder: |
+        picmosaic photo.jpg -t tiles/ --mask heart.png
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or alternative designs you've thought about.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Example images, links to prior art, or anything else useful.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and the roadmap, and this has not been requested yet.
+          required: true
+        - label: I'm willing to help implement this feature.
+          required: false

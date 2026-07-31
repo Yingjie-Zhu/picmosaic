@@ -1,0 +1,54 @@
+# Publish to PyPI on GitHub release, using PyPI Trusted Publishing (OIDC — no API token).
+#
+# One-time setup on PyPI (do this BEFORE the first release):
+#   1. Log in to https://pypi.org and go to "Your projects" -> "Publishing"
+#      (or, for a not-yet-created project, "Add a new pending publisher").
+#   2. Register a trusted publisher with:
+#        PyPI project name: picmosaic
+#        Owner:             <your GitHub username or org>
+#        Repository:        <your repo name>
+#        Workflow name:     publish.yml
+#        Environment:       pypi
+#   3. In the GitHub repo settings, create an environment named "pypi"
+#      (Settings -> Environments). Optionally add required reviewers for releases.
+# After that, publishing happens automatically whenever a GitHub release is published.
+
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Build sdist and wheel
+        run: pipx run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # Required for PyPI Trusted Publishing (OIDC token exchange).
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
