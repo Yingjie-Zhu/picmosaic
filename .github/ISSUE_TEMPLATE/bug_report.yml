@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in picmosaic is not working as documented
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill in as much of the
+        form as you can — a reproducible report gets fixed much faster.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug in a sentence or two.
+      placeholder: The mosaic output has a black strip on the right edge when...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: >
+        The exact CLI command or minimal Python snippet that triggers the bug.
+        If it depends on specific images, describe them (size, format, mode) or
+        attach small samples.
+      placeholder: |
+        picmosaic target.jpg --tiles tiles/ --tile-size 32 --upscale 2
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: picmosaic version
+      description: Output of `picmosaic --version`.
+      placeholder: picmosaic 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: Output of `python --version`.
+      placeholder: Python 3.12.4
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other (specify in the logs section)
+    validations:
+      required: true
+  - type: dropdown
+    id: extras
+    attributes:
+      label: Installed extras
+      description: Which optional extras are installed?
+      multiple: true
+      options:
+        - fast (scipy)
+        - none
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / output
+      description: >
+        Relevant terminal output. Re-run with `-v` for debug logging and a full
+        traceback. This is automatically formatted as code.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this bug has not been reported yet.
+          required: true
+        - label: I can reproduce this on the latest version of picmosaic.
+          required: true

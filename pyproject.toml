@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "picmosaic"
+dynamic = ["version"]
+description = "Commercial-grade photomosaic generator: rebuild any photo as a mosaic of many small tile images."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "PicMosaic contributors" }]
+keywords = [
+    "photomosaic",
+    "mosaic",
+    "photo-mosaic",
+    "image",
+    "collage",
+    "pillow",
+    "art",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=1.24",
+    "Pillow>=10.0",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+fast = ["scipy>=1.10"]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "pre-commit",
+]
+
+[project.scripts]
+picmosaic = "picmosaic.cli:entrypoint"
+
+[project.urls]
+Homepage = "https://github.com/Yingjie-Zhu/picmosaic"
+Repository = "https://github.com/Yingjie-Zhu/picmosaic"
+Issues = "https://github.com/Yingjie-Zhu/picmosaic/issues"
+Changelog = "https://github.com/Yingjie-Zhu/picmosaic/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.sdist]
+# Safety net: never ship local editor/tooling folders in source archives.
+exclude = [".claude", ".vscode", ".idea"]
+
+[tool.hatch.version]
+path = "src/picmosaic/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/picmosaic"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+# 3.12: numpy>=2.1 type stubs use PEP 695 syntax that mypy rejects for older targets.
+python_version = "3.12"
+warn_unused_ignores = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["scipy", "scipy.*", "tqdm", "tqdm.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
